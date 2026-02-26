@@ -1,1 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Message for You</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            width: 90%;
+            padding: 40px;
+            text-align: center;
+            animation: slideIn 0.8s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            color: #ff6b9d;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .heart {
+            font-size: 3em;
+            animation: heartBeat 1.3s infinite;
+            margin: 20px 0;
+        }
+
+        @keyframes heartBeat {
+            0%, 100% {
+                transform: scale(1);
+            }
+            25% {
+                transform: scale(1.3);
+            }
+            50% {
+                transform: scale(1);
+            }
+        }
+
+        .message {
+            color: #333;
+            font-size: 1.1em;
+            line-height: 1.8;
+            margin: 30px 0;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        .message p {
+            margin: 15px 0;
+        }
+
+        .button-group {
+            margin-top: 40px;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        button {
+            background: linear-gradient(135deg, #ff6b9d 0%, #ff8fab 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1em;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(255, 107, 157, 0.4);
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 107, 157, 0.6);
+        }
+
+        button:active {
+            transform: translateY(-1px);
+        }
+
+        .floating-hearts {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .heart-float {
+            position: absolute;
+            color: #ff6b9d;
+            font-size: 2em;
+            animation: float 4s infinite ease-in;
+            opacity: 0.6;
+        }
+
+        @keyframes float {
+            0% {
+                opacity: 0;
+                transform: translateY(0) translateX(0);
+            }
+            10% {
+                opacity: 0.8;
+            }
+            90% {
+                opacity: 0.8;
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-100vh) translateX(100px);
+            }
+        }
+
+        .hidden-message {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+            color: #ff6b9d;
+            font-style: italic;
+            font-size: 1.05em;
+        }
+
+        .hidden-message.show {
+            max-height: 200px;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-hearts" id="floatingHearts"></div>
+
+    <div class="container">
+        <h1>✨ For You ✨</h1>
+        <div class="heart">💗</div>
+        
+        <div class="message">
+            <p>hi lovey sorry minsan lagi tayo nag aaway hmd tayo oky pero heto tayo sana wla mapagod
+              satin sana tayo n sa huli ayaw ko n mwla k dapat alm mo yan lagi mo tatandaan n always
+              here for you love you my lovey my future wife baby boss kahit ano pa 
+              tawagan natin always my loyalty is yours.</p>
+            <p>Every moment with you is special,</p>
+            <p>and I cherish every memory we share.</p>
+            <p style="font-weight: bold; color: #ff6b9d; margin-top: 20px;">
+                I love you more than words can say. 💕
+            </p>
+        </div>
+
+        <div class="hidden-message" id="hiddenMessage">
+            <p>You make my heart skip a beat every single day. Will you be mine? 💑</p>
+        </div>
+
+        <div class="button-group">
+            <button onclick="revealMessage()">💌 Reveal Secret</button>
+            <button onclick="celebrateClick()">🎉 Celebrate Love</button>
+            <button onclick="playMusic()">🎵 Play Music</button>
+        </div>
+    </div>
+
+    <script>
+        // Create floating hearts on page load
+        function createFloatingHearts() {
+            const container = document.getElementById('floatingHearts');
+            const heartCount = 15;
+
+            for (let i = 0; i < heartCount; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.className = 'heart-float';
+                    heart.textContent = '💗';
+                    heart.style.left = Math.random() * 100 + '%';
+                    heart.style.animationDelay = Math.random() * 2 + 's';
+                    container.appendChild(heart);
+
+                    setTimeout(() => heart.remove(), 4000);
+                }, i * 300);
+            }
+        }
+
+        // Reveal hidden message
+        function revealMessage() {
+            const hidden = document.getElementById('hiddenMessage');
+            hidden.classList.toggle('show');
+            if (hidden.classList.contains('show')) {
+                createConfetti();
+            }
+        }
+
+        // Celebrate with confetti-like effects
+        function celebrateClick() {
+            createConfetti();
+            alert('💕 Love is in the air! 💕');
+        }
+
+        // Create confetti effect
+        function createConfetti() {
+            const floatingHearts = document.getElementById('floatingHearts');
+            for (let i = 0; i < 10; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart-float';
+                heart.textContent = '💗';
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.top = '0';
+                heart.style.animationDuration = (2 + Math.random()) + 's';
+                floatingHearts.appendChild(heart);
+
+                setTimeout(() => heart.remove(), 4000);
+            }
+        }
+
+        // Play romantic music (using Web Audio API or linking to a music file)
+        function playMusic() {
+            alert('🎵 Play your favorite romantic song in the background! 🎵\n\nSuggestions:\n- "Perfect" - Ed Sheeran\n- "All of Me" - John Legend\n- "Thinking Out Loud" - Ed Sheeran');
+        }
+
+        // Initialize floating hearts on page load
+        window.addEventListener('load', () => {
+            createFloatingHearts();
+            // Create new hearts every 5 seconds
+            setInterval(createFloatingHearts, 5000);
+        });
+
+        // Optional: Add keyboard interaction
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                celebrateClick();
+            }
+        });
+    </script>
+</body>
+</html>
